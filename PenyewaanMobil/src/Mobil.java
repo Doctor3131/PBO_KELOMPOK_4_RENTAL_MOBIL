@@ -13,8 +13,8 @@ public class Mobil extends Kendaraan {
         this.jenis_mobil = "-";
     }
 
-    public Mobil(String nama_mobil, String jenis_mobil) {
-        super();
+    public Mobil(String ID_Plat, String nama_mobil, String jenis_mobil) {
+        super(ID_Plat);
         countMobil++;
         this.nama_mobil = nama_mobil;
         this.jenis_mobil = jenis_mobil;

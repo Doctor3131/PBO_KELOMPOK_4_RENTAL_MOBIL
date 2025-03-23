@@ -82,6 +82,10 @@ public class Transaksi {
         return mobil;
     }
 
+    public Motor getMotor() {
+        return motor;
+    }
+
     public Penyewa getPenyewa() {
         return penyewa;
     }

@@ -18,12 +18,14 @@ public class Main {
             clearScreen();
             System.out.println("=== SISTEM PENYEWAAN MOBIL ===");
             System.out.println("1. Lihat Daftar Mobil");
-            System.out.println("2. Lihat Daftar Sopir");
-            System.out.println("3. Buat Transaksi Baru");
-            System.out.println("4. Lihat Semua Transaksi");
-            System.out.println("5. Lihat Transaksi Aktif");
-            System.out.println("6. Selesaikan Transaksi");
-            System.out.println("7. Keluar");
+            System.out.println("2. Lihat Daftar Motor");
+            System.out.println("3. Lihat Daftar Sopir");
+            System.out.println("4. Lihat Daftar Penyewa");
+            System.out.println("5. Buat Transaksi Baru");
+            System.out.println("6. Lihat Semua Transaksi");
+            System.out.println("7. Lihat Transaksi Aktif");
+            System.out.println("8. Selesaikan Transaksi");
+            System.out.println("0. Keluar");
             System.out.print("Pilih menu: ");
             
             int choice = getIntInput();
@@ -33,21 +35,27 @@ public class Main {
                     showMobil();
                     break;
                 case 2:
-                    showSopir();
+                    showMotor();
                     break;
                 case 3:
-                    createTransaksi();
+                    showSopir();
                     break;
                 case 4:
-                    showAllTransaksi();
+                    showPenyewa();
                     break;
                 case 5:
-                    showActiveTransaksi();
+                    createTransaksi();
                     break;
                 case 6:
-                    completeTransaksi();
+                    showAllTransaksi();
                     break;
                 case 7:
+                    showActiveTransaksi();
+                    break;
+                case 8:
+                    completeTransaksi();
+                    break;
+                case 0:
                     running = false;
                     break;
                 default:
@@ -60,11 +68,19 @@ public class Main {
     }
     
     private static void initializeData() {
-        // Add sample mobil
-        daftarMobil.add(new Mobil("Toyota Avanza", "MPV"));
-        daftarMobil.add(new Mobil("Honda Jazz", "Hatchback"));
-        daftarMobil.add(new Mobil("Toyota Fortuner", "SUV"));
+        // Add sample mobil (10 cars)
+        daftarMobil.add(new Mobil("B1234KL", "Toyota Avanza", "MPV"));
+        daftarMobil.add(new Mobil("B2345KL", "Honda Jazz", "Hatchback"));
+        daftarMobil.add(new Mobil("B3456KL", "Toyota Fortuner", "SUV"));
+        daftarMobil.add(new Mobil("B4567KL", "Honda Civic", "Sedan"));
+        daftarMobil.add(new Mobil("B5678KL", "Toyota Alphard", "MPV"));
+        daftarMobil.add(new Mobil("B6789KL", "Mitsubishi Pajero", "SUV"));
+        daftarMobil.add(new Mobil("B7890KL", "Suzuki Ertiga", "MPV"));
+        daftarMobil.add(new Mobil("B8901KL", "Daihatsu Xenia", "MPV"));
+        daftarMobil.add(new Mobil("B9012KL", "Toyota Kijang Innova", "MPV"));
+        daftarMobil.add(new Mobil("B0123KL", "Honda HR-V", "SUV"));
         
+        // Add sample motor (10 motorcycles)
         daftarMotor.add(new Motor("B1234AB", "Honda Beat", "Matic"));
         daftarMotor.add(new Motor("B2345AB", "Yamaha NMAX", "Matic"));
         daftarMotor.add(new Motor("B3456AB", "Honda Vario", "Matic"));
@@ -83,20 +99,126 @@ public class Main {
         daftarSopir.add(new Sopir("Rudi Hartono", "Jl. Diponegoro No. 12", "081122334455"));
         daftarSopir.add(new Sopir("Bambang Pamungkas", "Jl. Thamrin No. 7", "082233445566"));
         
+        
         // Add sample penyewa
         daftarPenyewa.add(new Penyewa("Andi Saputra", "Jl. Kenanga No. 5", "089876543210"));
         daftarPenyewa.add(new Penyewa("Dewi Lestari", "Jl. Mawar No. 7", "082345678901"));
     }
     
+    // private static void showMobil() {
+    //     clearScreen();
+    //     System.out.println("=== DAFTAR MOBIL ===");
+    //     if (daftarMobil.isEmpty()) {
+    //         System.out.println("Tidak ada mobil yang tersedia.");
+    //     } else {
+    //         for (int i = 0; i < daftarMobil.size(); i++) {
+    //             Mobil m = daftarMobil.get(i);
+    //             System.out.println((i + 1) + ". " + m.getNama() + " (" + m.getJenis() + ") - Plat: " + m.getID_Plat());
+    //         }
+    //     }
+    //     waitForEnter();
+    // }
+
+    // private static void showMotor() {
+    //     clearScreen();
+    //     System.out.println("=== DAFTAR MOTOR ===");
+    //     if (daftarMotor.isEmpty()) {
+    //         System.out.println("Tidak ada motor yang tersedia.");
+    //     } else {
+    //         for (int i = 0; i < daftarMotor.size(); i++) {
+    //             Motor m = daftarMotor.get(i);
+    //             System.out.println((i + 1) + ". " + m.getNama() + " (" + m.getJenis() + ") - Plat: " + m.getID_Plat());
+    //         }
+    //     }
+    //     waitForEnter();
+    // }
+
+    // private static void showSopir() {
+    //     clearScreen();
+    //     System.out.println("=== DAFTAR SOPIR ===");
+    //     if (daftarSopir.isEmpty()) {
+    //         System.out.println("Tidak ada sopir yang tersedia.");
+    //     } else {
+    //         for (int i = 0; i < daftarSopir.size(); i++) {
+    //             Sopir s = daftarSopir.get(i);
+    //             System.out.println((i + 1) + ". " + s.getName() + " - Telepon: " + s.getPhoneNumber());
+    //         }
+    //     }
+    //     waitForEnter();
+    // }
+    
+
+    private static boolean cekDisewa(String platID) {
+        for (Transaksi t : daftarTransaksi) {
+            if (t.isActive()) {
+                if (t.getMobil() != null && t.getMobil().getID_Plat().equals(platID)) {
+                    return true;
+                }
+                
+                if (t.getMotor() != null && t.getMotor().getID_Plat().equals(platID)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Overloaded method to check if a specific car is currently being rented
+     * @param platID The license plate ID to check
+     * @param daftarMobil The list of cars to search in (not actually needed for the implementation)
+     * @return true if the car is currently rented, false otherwise
+     */
+    private static boolean cekDisewa(String platID, ArrayList<Mobil> daftarMobil) {
+        // This can simply call the main method
+        return cekDisewa(platID);
+    }
+
+    /**
+     * Checks if a driver with the given ID is currently assigned to an active transaction
+     * @param sopirID The driver ID to check
+     * @return true if the driver is currently assigned, false otherwise
+     */
+    private static boolean cekDisewa(int sopirID) {
+        for (Transaksi t : daftarTransaksi) {
+            if (t.isActive() && t.getSopir() != null && t.getSopir().getIdSopir() == sopirID) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static void showMobil() {
         clearScreen();
         System.out.println("=== DAFTAR MOBIL ===");
         if (daftarMobil.isEmpty()) {
             System.out.println("Tidak ada mobil yang tersedia.");
         } else {
-            for (int i = 0; i < daftarMobil.size(); i++) {
-                Mobil m = daftarMobil.get(i);
-                System.out.println((i + 1) + ". " + m.getNama() + " (" + m.getJenis() + ") - Plat: " + m.getID_Plat());
+            System.out.println("No. | ID Plat  | Nama Mobil          | Jenis      | Status");
+            System.out.println("-----------------------------------------------------------");
+            int i = 1;
+            for (Mobil m : daftarMobil) {
+                String status = cekDisewa(m.getID_Plat(), daftarMobil) ? "Disewa" : "Tersedia";
+                System.out.printf("%-3d | %-8s | %-20s | %-10s | %s%n", 
+                                 i++, m.getID_Plat(), m.getNama(), m.getJenis(), status);
+            }
+        }
+        waitForEnter();
+    }
+    
+    private static void showMotor() {
+        clearScreen();
+        System.out.println("=== DAFTAR MOTOR ===");
+        if (daftarMotor.isEmpty()) {
+            System.out.println("Tidak ada motor yang tersedia.");
+        } else {
+            System.out.println("No. | ID Plat  | Nama Motor          | Jenis      | Status");
+            System.out.println("-----------------------------------------------------------");
+            int i = 1;
+            for (Motor m : daftarMotor) {
+                String status = cekDisewa(m.getID_Plat()) ? "Disewa" : "Tersedia";
+                System.out.printf("%-3d | %-8s | %-20s | %-10s | %s%n", 
+                                 i++, m.getID_Plat(), m.getNama(), m.getJenis(), status);
             }
         }
         waitForEnter();
@@ -108,9 +230,27 @@ public class Main {
         if (daftarSopir.isEmpty()) {
             System.out.println("Tidak ada sopir yang tersedia.");
         } else {
-            for (int i = 0; i < daftarSopir.size(); i++) {
-                Sopir s = daftarSopir.get(i);
-                System.out.println((i + 1) + ". " + s.getName() + " - Telepon: " + s.getPhoneNumber());
+            System.out.println("No. | ID | Nama               | Telepon        | Status");
+            System.out.println("----------------------------------------------------------");
+            int i = 1;
+            for (Sopir s : daftarSopir) {
+                String status = cekDisewa(s.getIdSopir()) ? "Disewa" : "Tersedia";
+                System.out.printf("%-3d | %-2d | %-18s | %-14s | %s%n", 
+                                 i++, s.getIdSopir(), s.getName(), s.getPhoneNumber(), status);
+            }
+        }
+        waitForEnter();
+    }
+
+    private static void showPenyewa() {
+        clearScreen();
+        System.out.println("=== DAFTAR PENYEWA ===");
+        if (daftarPenyewa.isEmpty()) {
+            System.out.println("Tidak ada penyewa yang terdaftar.");
+        } else {
+            for (int i = 0; i < daftarPenyewa.size(); i++) {
+                Penyewa p = daftarPenyewa.get(i);
+                System.out.println((i + 1) + ". " + p.getName() + " - Telepon: " + p.getPhoneNumber());
             }
         }
         waitForEnter();
