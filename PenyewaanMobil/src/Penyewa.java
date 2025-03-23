@@ -53,18 +53,37 @@ public class Penyewa {
     public void setAddress(String address) {
         this.address = address;
     }
+    
+    public void addTransaction(Transaksi transaksi) {
+        this.transactions.add(transaksi);
+    }
+
+    public ArrayList<Transaksi> getTransactions() {
+        return transactions;
+    }
 
     public void showAllTransactions() {
-        for (Transaksi t : transactions ) {
-            t.printInfo(); // print info transaksi sebagai method class Transaksi saja
+        System.out.println("\n=== DAFTAR TRANSAKSI UNTUK " + name + " ===");
+        if (transactions.isEmpty()) {
+            System.out.println("Tidak ada transaksi.");
+        } else {
+            for (Transaksi t : transactions) {
+                t.printInfo();
+            }
         }
     }
 
     public void showAllActiveTransactions() {
-        for (Transaksi t : transactions ) {
+        System.out.println("\n=== DAFTAR TRANSAKSI AKTIF UNTUK " + name + " ===");
+        boolean adaTransaksi = false;
+        for (Transaksi t : transactions) {
             if (t.isActive()) {
-                t.printInfo(); // print info transaksi sebagai method class Transaksi saja
+                t.printInfo();
+                adaTransaksi = true;
             }
         }
+        if (!adaTransaksi) {
+            System.out.println("Tidak ada transaksi aktif.");
+        }
     }
-} 
+}
