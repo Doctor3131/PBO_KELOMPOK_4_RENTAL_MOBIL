@@ -1,4 +1,4 @@
-public class Motor extends kendaraan {
+public class Motor extends Kendaraan {
     /* ATRIBUT */
     private String nama_motor;
     private String jenis_motor;
