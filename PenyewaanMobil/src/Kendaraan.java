@@ -43,6 +43,11 @@ public class Kendaraan {
 
     // SETTER
     public void setID_Plat(String ID_Plat) {
+        try {
+            cekID_Plat(ID_Plat);
+        } catch (ID_PlatException tolak) {
+            System.out.println(tolak.getMessage());
+        }
         this.ID_Plat = ID_Plat;
     }
 
