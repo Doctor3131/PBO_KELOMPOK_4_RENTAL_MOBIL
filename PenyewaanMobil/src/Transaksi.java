@@ -151,7 +151,7 @@ public class Transaksi {
         System.out.println("====== INFORMASI TRANSAKSI ======");
         System.out.println("ID Transaksi: " + ID_transaksi);
         System.out.println("Tanggal: " + tanggal_transaksi.format(formatter));
-        System.out.println("Status: " + status_transaksi.getStatus());
+        System.out.println("Status: " + status_transaksi);
         
         if (penyewa != null) {
             System.out.println("Penyewa: " + penyewa.getName() + " (ID: " + penyewa.getIdPenyewa() + ")");
