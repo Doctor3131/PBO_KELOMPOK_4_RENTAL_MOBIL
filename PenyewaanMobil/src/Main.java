@@ -383,7 +383,7 @@ public class Main {
         System.out.println("Penyewa baru?[y/n] ");
         String penyewaBaru = scanner.next().toLowerCase();
 
-        if (penyewaBaru.equals(penyewaBaru)) {
+        if (penyewaBaru.equals("y")) {
             addPenyewa();
         }
 
