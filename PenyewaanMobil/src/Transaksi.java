@@ -27,7 +27,7 @@ public class Transaksi {
     }
 
     public Transaksi(int durasi_mobil, int durasi_sopir) {
-
+        
     }
 
     // GETTER

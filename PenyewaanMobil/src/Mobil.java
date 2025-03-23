@@ -1,4 +1,4 @@
-public class Mobil extends Kendaraan{
+public class Mobil extends Kendaraan {
     /* ATRIBUT */
     private String nama_mobil;
     private String jenis_mobil;
@@ -6,14 +6,14 @@ public class Mobil extends Kendaraan{
 
     /* METHOD */
     // KOSTRUKTOR
-    public mobil() {
+    public Mobil() {
         super();
         countMobil++;
         this.nama_mobil = "-";
         this.jenis_mobil = "-";
     }
 
-    public mobil(String nama_mobil, String jenis_mobil) {
+    public Mobil(String nama_mobil, String jenis_mobil) {
         super();
         countMobil++;
         this.nama_mobil = nama_mobil;
