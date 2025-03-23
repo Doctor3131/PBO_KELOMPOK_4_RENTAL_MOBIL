@@ -1,5 +1,7 @@
 
+import java.security.Identity;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Transaksi {
     /* ATRIBUT */
@@ -33,4 +35,16 @@ public class Transaksi {
     // GETTER
     // SETTER
     // METHOD LAIN
+    public boolean isActive() {
+        return status_transaksi == statusTransaksi.DISEWA;
+    }
+
+    public void printInfo() {
+        DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        System.out.println("ID : " +  ID_transaksi);
+        System.out.println("Tanggal Transaksi : " + tanggal_transaksi.format(DTF));
+        System.out.println("Durasi Sewa Kendaraan : " + durasi_kendaraan);
+        System.out.println("Durasi Sewa Sopir : " + durasi_sopir);
+        System.out.println("Status : " + status_transaksi);
+    }
 }
