@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Penyewa {
-    private int idPenyewa;
+    private String idPenyewa;
     private String name;
     private String address;
     private String phoneNumber;
@@ -10,23 +10,27 @@ public class Penyewa {
 
     public Penyewa () {
         countPenyewa += 1;
-        this.idPenyewa = countPenyewa;
+        this.idPenyewa = "NONE";
         this.name = "NONE";
         this.address = "NONE";
         this.phoneNumber = "NONE";
         this.transactions = new ArrayList<Transaksi>();
     }
 
-    public Penyewa (String name, String address, String phoneNumber) {
+    public Penyewa (String idPenyewa, String name, String address, String phoneNumber) {
         countPenyewa += 1;
-        this.idPenyewa = countPenyewa;
+        this.idPenyewa = idPenyewa;
         this.name = name;
         this.address = address; 
         this.phoneNumber = phoneNumber;
         this.transactions = new ArrayList<Transaksi>();
     }
 
-    public int getIdPenyewa() {
+    public static int countPenyewa() {
+        return countPenyewa;
+    }
+
+    public String getIdPenyewa() {
         return idPenyewa;
     }
 

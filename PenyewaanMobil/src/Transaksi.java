@@ -8,13 +8,14 @@ public class Transaksi {
     private int durasi_sopir;
     private int durasi_kendaraan;
     private statusTransaksi status_transaksi; // antara Disewa atau Selesai
-    private Mobil mobil;
+    private Kendaraan kendaraan; // Changed to Kendaraan to support both Mobil and Motor
     private Penyewa penyewa;
     private Sopir sopir;
     private Pembayaran pembayaran;
     private static int countTransaksi = 0;
     private double hargaPerHariKendaraan = 300000; // Rp 300.000 per day
     private double hargaPerHariSopir = 150000;     // Rp 150.000 per day
+    private double diskonHargaMotor = 0.5;         // 50% discount for motorcycles
 
     /* METHOD */
     // KONSTRUKTOR
@@ -25,12 +26,13 @@ public class Transaksi {
         this.durasi_kendaraan = 1;
         this.durasi_sopir = 0;
         this.status_transaksi = statusTransaksi.DISEWA;
-        this.mobil = null;
+        this.kendaraan = null;
         this.penyewa = null;
         this.sopir = null;
         this.pembayaran = new Pembayaran(calculateBiaya());
     }
 
+    // Constructor for Mobil
     public Transaksi(Penyewa penyewa, Mobil mobil, int durasi_kendaraan) {
         countTransaksi++;
         this.ID_transaksi = countTransaksi;
@@ -38,12 +40,14 @@ public class Transaksi {
         this.durasi_kendaraan = durasi_kendaraan;
         this.durasi_sopir = 0;
         this.status_transaksi = statusTransaksi.DISEWA;
-        this.mobil = mobil;
+        this.kendaraan = mobil;
         this.penyewa = penyewa;
         this.sopir = null;
         this.pembayaran = new Pembayaran(calculateBiaya());
+        penyewa.addTransaction(this);
     }
 
+    // Constructor for Mobil with Sopir
     public Transaksi(Penyewa penyewa, Mobil mobil, Sopir sopir, int durasi_kendaraan, int durasi_sopir) {
         countTransaksi++;
         this.ID_transaksi = countTransaksi;
@@ -51,10 +55,26 @@ public class Transaksi {
         this.durasi_kendaraan = durasi_kendaraan;
         this.durasi_sopir = durasi_sopir;
         this.status_transaksi = statusTransaksi.DISEWA;
-        this.mobil = mobil;
+        this.kendaraan = mobil;
         this.penyewa = penyewa;
         this.sopir = sopir;
         this.pembayaran = new Pembayaran(calculateBiaya());
+        penyewa.addTransaction(this);
+    }
+
+    // New constructor for Motor
+    public Transaksi(Penyewa penyewa, Motor motor, int durasi_kendaraan) {
+        countTransaksi++;
+        this.ID_transaksi = countTransaksi;
+        this.tanggal_transaksi = LocalDate.now();
+        this.durasi_kendaraan = durasi_kendaraan;
+        this.durasi_sopir = 0;
+        this.status_transaksi = statusTransaksi.DISEWA;
+        this.kendaraan = motor;
+        this.penyewa = penyewa;
+        this.sopir = null;
+        this.pembayaran = new Pembayaran(calculateBiaya());
+        penyewa.addTransaction(this);
     }
 
     // GETTER
@@ -78,12 +98,24 @@ public class Transaksi {
         return status_transaksi;
     }
 
-    public Mobil getMobil() {
-        return mobil;
+    public Kendaraan getKendaraan() {
+        return kendaraan;
     }
 
+    // For backward compatibility
+    public Mobil getMobil() {
+        if (kendaraan instanceof Mobil) {
+            return (Mobil) kendaraan;
+        }
+        return null;
+    }
+
+    // New getter for Motor
     public Motor getMotor() {
-        return motor;
+        if (kendaraan instanceof Motor) {
+            return (Motor) kendaraan;
+        }
+        return null;
     }
 
     public Penyewa getPenyewa() {
@@ -117,8 +149,20 @@ public class Transaksi {
         this.status_transaksi = status_transaksi;
     }
 
+    public void setKendaraan(Kendaraan kendaraan) {
+        this.kendaraan = kendaraan;
+        this.pembayaran.setNominal(calculateBiaya());
+    }
+
+    // For backward compatibility
     public void setMobil(Mobil mobil) {
-        this.mobil = mobil;
+        this.kendaraan = mobil;
+        this.pembayaran.setNominal(calculateBiaya());
+    }
+
+    // New setter for Motor
+    public void setMotor(Motor motor) {
+        this.kendaraan = motor;
         this.pembayaran.setNominal(calculateBiaya());
     }
 
@@ -137,7 +181,15 @@ public class Transaksi {
 
     // METHOD LAIN
     public double calculateBiaya() {
-        double biayaKendaraan = durasi_kendaraan * hargaPerHariKendaraan;
+        double biayaKendaraan;
+        
+        // Check if the vehicle is a motorcycle to apply discount
+        if (kendaraan instanceof Motor) {
+            biayaKendaraan = durasi_kendaraan * (hargaPerHariKendaraan * diskonHargaMotor);
+        } else {
+            biayaKendaraan = durasi_kendaraan * hargaPerHariKendaraan;
+        }
+        
         double biayaSopir = durasi_sopir * hargaPerHariSopir;
         return biayaKendaraan + biayaSopir;
     }
@@ -163,11 +215,20 @@ public class Transaksi {
             System.out.println("Penyewa: -");
         }
         
-        if (mobil != null) {
-            System.out.println("Mobil: " + mobil.getNama() + " (Plat: " + mobil.getID_Plat() + ")");
+        if (kendaraan != null) {
+            String jenisKendaraan = kendaraan instanceof Mobil ? "Mobil" : "Motor";
+            String namaKendaraan = "";
+            
+            if (kendaraan instanceof Mobil) {
+                namaKendaraan = ((Mobil) kendaraan).getNama();
+            } else if (kendaraan instanceof Motor) {
+                namaKendaraan = ((Motor) kendaraan).getNama();
+            }
+            
+            System.out.println(jenisKendaraan + ": " + namaKendaraan + " (Plat: " + kendaraan.getID_Plat() + ")");
             System.out.println("Durasi sewa kendaraan: " + durasi_kendaraan + " hari");
         } else {
-            System.out.println("Mobil: -");
+            System.out.println("Kendaraan: -");
         }
         
         if (sopir != null) {
